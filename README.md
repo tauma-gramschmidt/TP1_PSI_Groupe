@@ -3,4 +3,8 @@ TP1 en groupe
 
 # Membres du groupe
 
-Raphaël Thomas Adrien
+Raphaël MOMAS
+
+Thomas MIOT
+
+Adrien JARMAK
