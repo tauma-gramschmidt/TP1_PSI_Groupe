@@ -22,6 +22,7 @@
             }
          this.nbRows = nbRows;
          this.nbColumns = nbColumns;
+         this.matrix = new List<List<float>>();
          this.defaultValue = defaultValue; 
         }
 
