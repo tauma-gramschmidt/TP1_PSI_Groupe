@@ -104,14 +104,29 @@
         // Lève une ArgumentOutOfRangeException si `i` est en dehors des indices valides
         public void RemoveRow(int i)
         {
-            // TODO : implémenter
+            if (i < 0 || i >= NbRows)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            matrix.RemoveAt(i);
+            nbRows--;
         }
 
         // Supprime la colonne à l'indice `j`. Décale les colonnes suivantes vers la gauche.
         // Lève une ArgumentOutOfRangeException si `j` est en dehors des indices valides
         public void RemoveColumn(int j)
         {
-            // TODO : implémenter
+            if (j < 0 || j >= NbColumns)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            // Supprimer la colonne j dans chaque ligne
+            for (int r = 0; r < NbRows; r++)
+            {
+                matrix[r].RemoveAt(j);
+            }
+
+            nbColumns--;
         }
 
         // Renvoie la valeur à la ligne `i` et colonne `j`
