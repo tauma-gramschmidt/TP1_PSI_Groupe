@@ -14,17 +14,28 @@
 
 
         public Matrix(int nbRows = 0, int nbColumns = 0, float defaultValue = 0)
-
         {
             if (nbRows < 0 || nbColumns < 0)
             {
                 throw new ArgumentOutOfRangeException("Les dimensions de la matrice ne peuvent pas être négatives.");
             }
-         this.nbRows = nbRows;
-         this.nbColumns = nbColumns;
-         this.matrix = new List<List<float>>();
-         this.defaultValue = defaultValue; 
+
+            this.nbRows = nbRows;
+            this.nbColumns = nbColumns;
+            this.defaultValue = defaultValue;
+
+            this.matrix = new List<List<float>>(nbRows);
+            for (int i = 0; i < nbRows; i++)
+            {
+                var row = new List<float>(nbColumns);
+                for (int j = 0; j < nbColumns; j++)
+                {
+                    row.Add(defaultValue);
+                }
+                this.matrix.Add(row);
+            }
         }
+
 
         // Propriété : valeur par défaut utilisée pour remplir les nouvelles cases
         // Lecture seule
@@ -54,7 +65,18 @@
          */
         public void AddRow(int i)
         {
-            // TODO : implémenter
+            if(i<0 || i>NbRows)
+            {
+                throw new ArgumentOutOfRangeException("i doit être compris entre 0 et NbRows");
+            }
+
+            var newRow = new List<float>(nbColumns);
+            for (int j = 0; j < nbColumns; j++)
+            {
+                newRow.Add(defaultValue);
+            }
+            matrix.Insert(i, newRow);
+            nbRows++;
         }
 
         /* Insère une colonne à l'indice `j`. Décale les colonnes suivantes vers la droite.
@@ -64,21 +86,47 @@
          */
         public void AddColumn(int j)
         {
-            // TODO : implémenter
+            if (j < 0 || j > nbColumns)
+            {
+                throw new ArgumentOutOfRangeException("j doit être compris entre 0 et NbColumns (inclus).");
+            }
+
+            for (int i = 0; i < nbRows; i++)
+            {
+                matrix[i].Insert(j, defaultValue);
+            }
+
+            nbColumns++;
         }
+
 
         // Supprime la ligne à l'indice `i`. Décale les lignes suivantes vers le haut.
         // Lève une ArgumentOutOfRangeException si `i` est en dehors des indices valides
         public void RemoveRow(int i)
         {
-            // TODO : implémenter
+            if (i < 0 || i >= NbRows)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            matrix.RemoveAt(i);
+            nbRows--;
         }
 
         // Supprime la colonne à l'indice `j`. Décale les colonnes suivantes vers la gauche.
         // Lève une ArgumentOutOfRangeException si `j` est en dehors des indices valides
         public void RemoveColumn(int j)
         {
-            // TODO : implémenter
+            if (j < 0 || j >= NbColumns)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            // Supprimer la colonne j dans chaque ligne
+            for (int r = 0; r < NbRows; r++)
+            {
+                matrix[r].RemoveAt(j);
+            }
+
+            nbColumns--;
         }
 
         // Renvoie la valeur à la ligne `i` et colonne `j`
