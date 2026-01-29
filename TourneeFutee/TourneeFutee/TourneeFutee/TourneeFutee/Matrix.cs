@@ -85,8 +85,11 @@
         // Lève une ArgumentOutOfRangeException si `i` ou `j` est en dehors des indices valides
         public float GetValue(int i, int j)
         {
-            // TODO : implémenter
-            return 0.0f;
+            if (i < 0 || i >= nbRows || j < 0 || j >= nbColumns)
+            {
+                throw new ArgumentOutOfRangeException("Les indices i ou j sont hors limites.");
+            }
+            return matrix[i][j]; 
         }
 
         // Affecte la valeur à la ligne `i` et colonne `j` à `v`
