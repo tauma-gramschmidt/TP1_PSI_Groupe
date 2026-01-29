@@ -5,37 +5,47 @@
         // TODO : ajouter tous les attributs que vous jugerez pertinents 
 
 
-        /* Crée une matrice de dimensions `nbRows` x `nbColums`.
+        /* Crée une matrice de dimensions `nbRows` x `nbColumns`.
          * Toutes les cases de cette matrice sont remplies avec `defaultValue`.
          * Lève une ArgumentOutOfRangeException si une des dimensions est négative
          */
+        private int nbRows;
+        private int nbColumns;
+        private int[,] matrix;
+        private float defaultValue;
+
+
         public Matrix(int nbRows = 0, int nbColumns = 0, float defaultValue = 0)
+
         {
-            // TODO : implémenter
+            if (nbRows < 0 || nbColumns < 0)
+            {
+                throw new ArgumentOutOfRangeException("Les dimensions de la matrice ne peuvent pas être négatives.");
+            }
+         this.nbRows = nbRows;
+         this.nbColumns = nbColumns;
+         this.defaultValue = defaultValue; 
         }
 
         // Propriété : valeur par défaut utilisée pour remplir les nouvelles cases
         // Lecture seule
         public float DefaultValue
         {
-            get; // TODO : implémenter
-                 // pas de set
+            get { return defaultValue; }
         }
 
         // Propriété : nombre de lignes
         // Lecture seule
         public int NbRows
         {
-            get; // TODO : implémenter
-                 // pas de set
+            get { return nbRows; }
         }
 
         // Propriété : nombre de colonnes
         // Lecture seule
         public int NbColumns
         {
-            get; // TODO : implémenter
-                 // pas de set
+            get { return nbColumns; }
         }
 
         /* Insère une ligne à l'indice `i`. Décale les lignes suivantes vers le bas.
