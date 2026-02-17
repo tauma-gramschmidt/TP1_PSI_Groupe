@@ -7,7 +7,6 @@
         private bool oriente;
         private float valeurAbsenceArc;
 
-        private Matrix matriceAdjacence;
 
         private List<Sommet> sommets;                   
         private Dictionary<string, int> nomVersIndice;
