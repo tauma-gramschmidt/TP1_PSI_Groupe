@@ -9,9 +9,7 @@
         /// --- Attributs ---
         private bool oriente;
         private float valeurAbsenceArc;
-
         private Matrix matriceAdjacence;
-
         private List<Sommet> sommets;
         private Dictionary<string, int> nomVersIndice;
         public Graph(bool directed, float noEdgeValue = 0)
@@ -45,7 +43,13 @@
         // Lève une ArgumentException s'il existe déjà un sommet avec le même nom dans le graphe
         public void AddVertex(string name, float value = 0)
         {
-            // TODO : implémenter
+            Sommet s = new Sommet(name, value);
+            sommets.Add(s);
+
+            int index = sommets.Count - 1;
+            nomVersIndice.Add(name, index);
+            matriceAdjacence.AddRow(matriceAdjacence.NbRows);
+            matriceAdjacence.AddColumn(matriceAdjacence.NbColumns);
         }
 
 
@@ -53,7 +57,32 @@
         // Lève une ArgumentException si le sommet n'a pas été trouvé dans le graphe
         public void RemoveVertex(string name)
         {
-            // TODO : implémenter
+            int index = -1;
+            for (int i = 0; i < sommets.Count; i++)
+            {
+                if (sommets[i].Nom == name)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index == -1)
+            {
+                throw new ArgumentException();
+            }
+
+            matriceAdjacence.RemoveRow(index);
+            matriceAdjacence.RemoveColumn(index);
+
+            sommets.RemoveAt(index);
+            nomVersIndice.Remove(name);
+
+            nomVersIndice.Clear();
+            for (int i = 0; i < sommets.Count; i++)
+            {
+                nomVersIndice.Add(sommets[i].Nom, i);
+            }
         }
 
         // Renvoie la valeur du sommet de nom `name`
@@ -94,7 +123,31 @@
          */
         public void AddEdge(string sourceName, string destinationName, float weight = 1)
         {
-            // TODO : implémenter
+            int i = -1;
+            int j = -1;
+
+            for (int k = 0; k < sommets.Count; k++)
+            {
+                if (sommets[k].Nom == sourceName) i = k;
+                if (sommets[k].Nom == destinationName) j = k;
+            }
+
+            if (i == -1 || j == -1)
+            {
+                throw new ArgumentException();
+            }
+
+            if (matriceAdjacence.GetValue(i, j) != valeurAbsenceArc)
+            {
+                throw new ArgumentException();
+            }
+
+            matriceAdjacence.SetValue(i, j, weight);
+
+            if (Directed == false)
+            {
+                matriceAdjacence.SetValue(j, i, weight);
+            }
         }
 
         /* Supprime l'arc allant du sommet nommé `sourceName` au sommet nommé `destinationName` du graphe
@@ -105,7 +158,31 @@
          */
         public void RemoveEdge(string sourceName, string destinationName)
         {
-            // TODO : implémenter
+            int i = -1;
+            int j = -1;
+
+            for (int k = 0; k < sommets.Count; k++)
+            {
+                if (sommets[k].Nom == sourceName) i = k;
+                if (sommets[k].Nom == destinationName) j = k;
+            }
+
+            if (i == -1 || j == -1)
+            {
+                throw new ArgumentException();
+            }
+
+            if (matriceAdjacence.GetValue(i, j) == valeurAbsenceArc)
+            {
+                throw new ArgumentException();
+            }
+
+            matriceAdjacence.SetValue(i, j, valeurAbsenceArc);
+
+            if (Directed == false)
+            {
+                matriceAdjacence.SetValue(j, i, valeurAbsenceArc);
+            }
         }
 
         /* Renvoie le poids de l'arc allant du sommet nommé `sourceName` au sommet nommé `destinationName`
@@ -126,7 +203,26 @@
          */
         public void SetEdgeWeight(string sourceName, string destinationName, float weight)
         {
-            // TODO : implémenter
+            int i = -1;
+            int j = -1;
+
+            for (int k = 0; k < sommets.Count; k++)
+            {
+                if (sommets[k].Nom == sourceName) i = k;
+                if (sommets[k].Nom == destinationName) j = k;
+            }
+
+            if (i == -1 || j == -1)
+            {
+                throw new ArgumentException();
+            }
+
+            matriceAdjacence.SetValue(i, j, weight);
+
+            if (Directed == false)
+            {
+                matriceAdjacence.SetValue(j, i, weight);
+            }
         }
 
         // TODO : ajouter toutes les méthodes que vous jugerez pertinentes 
