@@ -6,10 +6,14 @@
         // TODO : ajouter tous les attributs que vous jugerez pertinents 
 
 
-        // --- Construction du graphe ---
+        /// --- Attributs ---
+        private bool oriente;
+        private float valeurAbsenceArc;
 
-        // Contruit un graphe (`directed`=true => orienté)
-        // La valeur `noEdgeValue` est le poids modélisant l'absence d'un arc (0 par défaut)
+        private Matrix matriceAdjacence;
+
+        private List<Sommet> sommets;
+        private Dictionary<string, int> nomVersIndice;
         public Graph(bool directed, float noEdgeValue = 0)
         {
           
