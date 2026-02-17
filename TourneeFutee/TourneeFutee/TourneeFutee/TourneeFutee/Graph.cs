@@ -3,17 +3,16 @@
     public class Graph
     {
 
-        // --- Attributs ---
-        private bool oriente;
-        private float valeurAbsenceArc;
+        // TODO : ajouter tous les attributs que vous jugerez pertinents 
 
 
-        private List<Sommet> sommets;                   
-        private Dictionary<string, int> nomVersIndice;
+        // --- Construction du graphe ---
 
+        // Contruit un graphe (`directed`=true => orienté)
+        // La valeur `noEdgeValue` est le poids modélisant l'absence d'un arc (0 par défaut)
         public Graph(bool directed, float noEdgeValue = 0)
         {
-            // TODO : implémenter
+          
         }
 
 
