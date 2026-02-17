@@ -65,15 +65,26 @@
         // Lève une ArgumentException si le sommet n'a pas été trouvé dans le graphe
         public float GetVertexValue(string name)
         {
-            // TODO : implémenter
-            return 0.0f;
+            if (nomVersIndice.ContainsKey(name) == false)
+            {
+                throw new ArgumentException("Sommet introuvable : " + name);
+            }
+
+            int indice = nomVersIndice[name];
+            return sommets[indice].Valeur;
         }
 
         // Affecte la valeur du sommet de nom `name` à `value`
         // Lève une ArgumentException si le sommet n'a pas été trouvé dans le graphe
         public void SetVertexValue(string name, float value)
         {
-            // TODO : implémenter
+            if (nomVersIndice.ContainsKey(name) == false)
+            {
+                throw new ArgumentException("Sommet introuvable : " + name);
+            }
+
+            int indice = nomVersIndice[name];
+            sommets[indice].Valeur = value;
         }
 
 
@@ -84,10 +95,26 @@
         {
             List<string> neighborNames = new List<string>();
 
-            // TODO : implémenter
+            if (nomVersIndice.ContainsKey(vertexName) == false)
+            {
+                throw new ArgumentException("Sommet introuvable : " + vertexName);
+            }
+
+            int i = nomVersIndice[vertexName];
+
+            for (int j = 0; j < Order; j++)
+            {
+                float poids = matriceAdjacence.GetValue(i, j);
+
+                if (poids != valeurAbsenceArc)
+                {
+                    neighborNames.Add(sommets[j].Nom);                
+                }
+            }
 
             return neighborNames;
         }
+
 
         // --- Gestion des arcs ---
 
@@ -121,9 +148,29 @@
          */
         public float GetEdgeWeight(string sourceName, string destinationName)
         {
-            // TODO : implémenter
-            return 0.0f;
+            if (nomVersIndice.ContainsKey(sourceName) == false)
+            {
+                throw new ArgumentException("Sommet introuvable : " + sourceName);
+            }
+
+            if (nomVersIndice.ContainsKey(destinationName) == false)
+            {
+                throw new ArgumentException("Sommet introuvable : " + destinationName);
+            }
+
+            int i = nomVersIndice[sourceName];
+            int j = nomVersIndice[destinationName];
+
+            float poids = matriceAdjacence.GetValue(i, j);
+
+            if (poids == valeurAbsenceArc)
+            {
+                throw new ArgumentException("Arc inexistant : (" + sourceName + ", " + destinationName + ")");
+            }
+
+            return poids;
         }
+
 
         /* Affecte le poids l'arc allant du sommet nommé `sourceName` au sommet nommé `destinationName` à `weight` 
          * Si le graphe n'est pas orienté, affecte le même poids à l'arc inverse
