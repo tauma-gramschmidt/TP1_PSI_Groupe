@@ -65,7 +65,7 @@
          */
         public void AddRow(int i)
         {
-            if(i<0 || i>NbRows)
+            if (i < 0 || i > NbRows)
             {
                 throw new ArgumentOutOfRangeException("i doit être compris entre 0 et NbRows");
             }
@@ -137,26 +137,37 @@
             {
                 throw new ArgumentOutOfRangeException("Les indices i ou j sont hors limites.");
             }
-            return matrix[i][j]; 
+            return matrix[i][j];
         }
 
         // Affecte la valeur à la ligne `i` et colonne `j` à `v`
         // Lève une ArgumentOutOfRangeException si `i` ou `j` est en dehors des indices valides
         public void SetValue(int i, int j, float v)
         {
-            // TODO : implémenter
+            if (i < 0 || i >= nbRows || j < 0 || j >= nbColumns)
+            {
+                throw new ArgumentOutOfRangeException("Indices hors limites pour l'affectation.");
+            }
+            matrix[i][j] = v;
         }
 
         // Affiche la matrice
         public void Print()
         {
-            // TODO : implémenter
+            for (int i = 0; i < nbRows; i++)
+            {
+                for (int j = 0; j < nbColumns; j++)
+                {
+                    Console.Write(matrix[i][j] + "\t");
+                }
+                Console.WriteLine();
+            }
+
+
+            // TODO : ajouter toutes les méthodes que vous jugerez pertinentes 
+
         }
 
 
-        // TODO : ajouter toutes les méthodes que vous jugerez pertinentes 
-
     }
-
-
 }
