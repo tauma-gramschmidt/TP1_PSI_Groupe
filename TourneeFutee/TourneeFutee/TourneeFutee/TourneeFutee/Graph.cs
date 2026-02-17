@@ -14,9 +14,16 @@
 
         private List<Sommet> sommets;
         private Dictionary<string, int> nomVersIndice;
-        public Graph(bool directed, float noEdgeValue = 0)
+
+        public Graph(bool oriente, float valeurAbsenceArc = 0)
         {
-          
+            this.oriente = oriente;
+            this.valeurAbsenceArc = valeurAbsenceArc;
+
+            sommets = new List<Sommet>();
+            nomVersIndice = new Dictionary<string, int>();
+
+            matriceAdjacence = new Matrix(0, 0, valeurAbsenceArc);
         }
 
 
@@ -26,16 +33,14 @@
         // Lecture seule
         public int Order
         {
-            get;    // TODO : implémenter
-                    // pas de set
+            get {return sommets.Count;}
         }
 
         // Propriété : graphe orienté ou non
         // Lecture seule
         public bool Directed
         {
-            get;    // TODO : implémenter
-                    // pas de set
+            get {return oriente;}
         }
 
 
