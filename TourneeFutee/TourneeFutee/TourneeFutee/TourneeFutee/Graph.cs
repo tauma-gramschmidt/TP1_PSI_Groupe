@@ -31,14 +31,20 @@
         // Lecture seule
         public int Order
         {
-            get {return sommets.Count;}
+            get
+            {
+                return sommets.Count;
+            }
         }
 
         // Propriété : graphe orienté ou non
         // Lecture seule
         public bool Directed
         {
-            get {return oriente;}
+            get
+            {
+                return oriente;
+            }
         }
 
 
@@ -165,8 +171,14 @@
 
             for (int k = 0; k < sommets.Count; k++)
             {
-                if (sommets[k].Nom == sourceName) i = k;
-                if (sommets[k].Nom == destinationName) j = k;
+                if (sommets[k].Nom == sourceName)
+                {
+                    i = k;
+                }
+                if (sommets[k].Nom == destinationName)
+                {
+                    j = k;
+                }
             }
 
             if (i == -1 || j == -1)
@@ -200,8 +212,14 @@
 
             for (int k = 0; k < sommets.Count; k++)
             {
-                if (sommets[k].Nom == sourceName) i = k;
-                if (sommets[k].Nom == destinationName) j = k;
+                if (sommets[k].Nom == sourceName)
+                {
+                    i = k;
+                }
+                if (sommets[k].Nom == destinationName)
+                {
+                    j = k;
+                }
             }
 
             if (i == -1 || j == -1)
@@ -265,8 +283,14 @@
 
             for (int k = 0; k < sommets.Count; k++)
             {
-                if (sommets[k].Nom == sourceName) i = k;
-                if (sommets[k].Nom == destinationName) j = k;
+                if (sommets[k].Nom == sourceName)
+                {
+                    i = k;
+                }
+                if (sommets[k].Nom == destinationName)
+                {
+                    j = k;
+                }
             }
 
             if (i == -1 || j == -1)
