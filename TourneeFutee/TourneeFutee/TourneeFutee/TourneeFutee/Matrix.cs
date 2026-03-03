@@ -17,7 +17,7 @@
         {
             if (nbRows < 0 || nbColumns < 0)
             {
-                throw new ArgumentOutOfRangeException("Les dimensions de la matrice ne peuvent pas être négatives.");
+                throw new ArgumentOutOfRangeException("les dimensions de la matrice ne peuvent pas être négatives !!");
             }
 
             this.nbRows = nbRows;
@@ -41,21 +41,30 @@
         // Lecture seule
         public float DefaultValue
         {
-            get { return defaultValue; }
+            get 
+            {
+                return defaultValue; 
+            }
         }
 
         // Propriété : nombre de lignes
         // Lecture seule
         public int NbRows
         {
-            get { return nbRows; }
+            get 
+            {
+                return nbRows; 
+            }
         }
 
         // Propriété : nombre de colonnes
         // Lecture seule
         public int NbColumns
         {
-            get { return nbColumns; }
+            get 
+            {
+                return nbColumns; 
+            }
         }
 
         /* Insère une ligne à l'indice `i`. Décale les lignes suivantes vers le bas.
@@ -120,7 +129,7 @@
             {
                 throw new ArgumentOutOfRangeException();
             }
-            // Supprimer la colonne j dans chaque ligne
+            // on supprime la colonne j dans chaque ligne
             for (int r = 0; r < NbRows; r++)
             {
                 matrix[r].RemoveAt(j);
