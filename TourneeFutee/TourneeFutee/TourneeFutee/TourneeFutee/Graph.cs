@@ -13,15 +13,15 @@
         private List<Sommet> sommets;
         private Dictionary<string, int> nomVersIndice;
 
-        public Graph(bool oriente, float valeurAbsenceArc = 0)
+        public Graph(bool directed, float noEdgeValue = 0)
         {
-            this.oriente = oriente;
-            this.valeurAbsenceArc = valeurAbsenceArc;
+            this.oriente = directed;
+            this.valeurAbsenceArc = noEdgeValue;
 
             sommets = new List<Sommet>();
             nomVersIndice = new Dictionary<string, int>();
 
-            matriceAdjacence = new Matrix(0, 0, valeurAbsenceArc);
+            matriceAdjacence = new Matrix(0, 0, noEdgeValue);
         }
 
 
@@ -48,12 +48,17 @@
         // Lève une ArgumentException s'il existe déjà un sommet avec le même nom dans le graphe
         public void AddVertex(string name, float value = 0)
         {
+            if (nomVersIndice.ContainsKey(name) == true)
+            {
+                throw new ArgumentException("sommet déjà existant: " + name);
+            }
             Sommet s = new Sommet(name, value);
             sommets.Add(s);
 
             int index = sommets.Count - 1;
             nomVersIndice.Add(name, index);
             matriceAdjacence.AddRow(matriceAdjacence.NbRows);
+
             matriceAdjacence.AddColumn(matriceAdjacence.NbColumns);
         }
 
