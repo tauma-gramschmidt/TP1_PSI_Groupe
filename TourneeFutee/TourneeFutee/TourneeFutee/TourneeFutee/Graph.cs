@@ -74,6 +74,7 @@
         public void RemoveVertex(string name)
         {
             int index = -1;
+
             for (int i = 0; i < sommets.Count; i++)
             {
                 if (sommets[i].Nom == name)
@@ -85,7 +86,7 @@
 
             if (index == -1)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Le sommet " + name + " n'existe pas dans le graphe.");
             }
 
             matriceAdjacence.RemoveRow(index);
@@ -99,19 +100,6 @@
             {
                 nomVersIndice.Add(sommets[i].Nom, i);
             }
-        }
-
-        // Renvoie la valeur du sommet de nom `name`
-        // Lève une ArgumentException si le sommet n'a pas été trouvé dans le graphe
-        public float GetVertexValue(string name)
-        {
-            if (nomVersIndice.ContainsKey(name) == false)
-            {
-                throw new ArgumentException("Sommet introuvable : " + name);
-            }
-
-            int indice = nomVersIndice[name];
-            return sommets[indice].Valeur;
         }
 
         // Affecte la valeur du sommet de nom `name` à `value`
@@ -183,12 +171,12 @@
 
             if (i == -1 || j == -1)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Le sommet source et/ou destination est introuvable dans le graphe.");
             }
 
             if (matriceAdjacence.GetValue(i, j) != valeurAbsenceArc)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Un arc existe déjà entre " + sourceName + " et " + destinationName + ".");
             }
 
             matriceAdjacence.SetValue(i, j, weight);
@@ -224,12 +212,12 @@
 
             if (i == -1 || j == -1)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Le sommet source et/ou destination est introuvable dans le graphe.");
             }
 
             if (matriceAdjacence.GetValue(i, j) == valeurAbsenceArc)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Aucun arc n'existe entre " + sourceName + " et " + destinationName + ".");
             }
 
             matriceAdjacence.SetValue(i, j, valeurAbsenceArc);
@@ -295,7 +283,7 @@
 
             if (i == -1 || j == -1)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Le sommet source et/ou destination est introuvable dans le graphe.");
             }
 
             matriceAdjacence.SetValue(i, j, weight);
