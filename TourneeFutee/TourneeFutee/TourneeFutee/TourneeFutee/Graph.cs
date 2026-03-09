@@ -73,21 +73,12 @@
         // Lève une ArgumentException si le sommet n'a pas été trouvé dans le graphe
         public void RemoveVertex(string name)
         {
-            int index = -1;
-
-            for (int i = 0; i < sommets.Count; i++)
-            {
-                if (sommets[i].Nom == name)
-                {
-                    index = i;
-                    break;
-                }
-            }
-
-            if (index == -1)
+            if (!nomVersIndice.ContainsKey(name))
             {
                 throw new ArgumentException("Le sommet " + name + " n'existe pas dans le graphe.");
             }
+
+            int index = nomVersIndice[name];
 
             matriceAdjacence.RemoveRow(index);
             matriceAdjacence.RemoveColumn(index);
@@ -154,34 +145,22 @@
          */
         public void AddEdge(string sourceName, string destinationName, float weight = 1)
         {
-            int i = -1;
-            int j = -1;
-
-            for (int k = 0; k < sommets.Count; k++)
+            if (nomVersIndice.ContainsKey(sourceName) == false || nomVersIndice.ContainsKey(destinationName) == false)
             {
-                if (sommets[k].Nom == sourceName)
-                {
-                    i = k;
-                }
-                if (sommets[k].Nom == destinationName)
-                {
-                    j = k;
-                }
+                throw new ArgumentException("Le sommet source et/ou destination est introuvable dans le graphe");
             }
 
-            if (i == -1 || j == -1)
-            {
-                throw new ArgumentException("Le sommet source et/ou destination est introuvable dans le graphe.");
-            }
+            int i = nomVersIndice[sourceName];
+            int j = nomVersIndice[destinationName];
 
             if (matriceAdjacence.GetValue(i, j) != valeurAbsenceArc)
             {
-                throw new ArgumentException("Un arc existe déjà entre " + sourceName + " et " + destinationName + ".");
+                throw new ArgumentException("Un arc existe déjà entre " + sourceName + " et " + destinationName);
             }
 
             matriceAdjacence.SetValue(i, j, weight);
 
-            if (Directed == false)
+            if (!Directed)
             {
                 matriceAdjacence.SetValue(j, i, weight);
             }
@@ -195,25 +174,13 @@
          */
         public void RemoveEdge(string sourceName, string destinationName)
         {
-            int i = -1;
-            int j = -1;
-
-            for (int k = 0; k < sommets.Count; k++)
-            {
-                if (sommets[k].Nom == sourceName)
-                {
-                    i = k;
-                }
-                if (sommets[k].Nom == destinationName)
-                {
-                    j = k;
-                }
-            }
-
-            if (i == -1 || j == -1)
+            if (nomVersIndice.ContainsKey(sourceName) == false || nomVersIndice.ContainsKey(destinationName) == false)
             {
                 throw new ArgumentException("Le sommet source et/ou destination est introuvable dans le graphe.");
             }
+
+            int i = nomVersIndice[sourceName];
+            int j = nomVersIndice[destinationName];
 
             if (matriceAdjacence.GetValue(i, j) == valeurAbsenceArc)
             {
@@ -260,31 +227,30 @@
         }
 
 
+        public float GetVertexValue(string name)
+        {
+            if (nomVersIndice.ContainsKey(name) == false)
+            {
+                throw new ArgumentException("Sommet introuvable : " + name);
+            }
+
+            int indice = nomVersIndice[name];
+            return sommets[indice].Valeur;
+        }
+
         /* Affecte le poids l'arc allant du sommet nommé `sourceName` au sommet nommé `destinationName` à `weight` 
          * Si le graphe n'est pas orienté, affecte le même poids à l'arc inverse
          * Lève une ArgumentException si un des sommets n'a pas été trouvé dans le graphe (source et/ou destination)
          */
         public void SetEdgeWeight(string sourceName, string destinationName, float weight)
         {
-            int i = -1;
-            int j = -1;
-
-            for (int k = 0; k < sommets.Count; k++)
+            if (nomVersIndice.ContainsKey(sourceName) == false || nomVersIndice.ContainsKey(destinationName) == false)
             {
-                if (sommets[k].Nom == sourceName)
-                {
-                    i = k;
-                }
-                if (sommets[k].Nom == destinationName)
-                {
-                    j = k;
-                }
+                throw new ArgumentException("Le sommet source et/ou destination est introuvable dans le graphe");
             }
 
-            if (i == -1 || j == -1)
-            {
-                throw new ArgumentException("Le sommet source et/ou destination est introuvable dans le graphe.");
-            }
+            int i = nomVersIndice[sourceName];
+            int j = nomVersIndice[destinationName];
 
             matriceAdjacence.SetValue(i, j, weight);
 
