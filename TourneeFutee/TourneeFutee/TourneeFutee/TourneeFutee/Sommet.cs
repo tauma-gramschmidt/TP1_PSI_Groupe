@@ -11,6 +11,7 @@ namespace TourneeFutee
 
         private string nom;
         private float valeur;
+
         public Sommet(string nom, float valeur)
         {
             this.nom = nom;
