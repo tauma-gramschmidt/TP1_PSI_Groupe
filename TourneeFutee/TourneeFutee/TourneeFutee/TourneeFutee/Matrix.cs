@@ -97,7 +97,7 @@
         {
             if (j < 0 || j > nbColumns)
             {
-                throw new ArgumentOutOfRangeException("j doit être compris entre 0 et NbColumns (inclus).");
+                throw new ArgumentOutOfRangeException("j doit être compris entre 0 et NbColumns");
             }
 
             for (int i = 0; i < nbRows; i++)
@@ -115,7 +115,7 @@
         {
             if (i < 0 || i >= NbRows)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(i,"l'indice de la ligne doit être compris entre 0 et NbRows -1");
             }
             matrix.RemoveAt(i);
             nbRows--;
@@ -127,7 +127,7 @@
         {
             if (j < 0 || j >= NbColumns)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(j, "l'indice de la colonne doit être compris entre 0 et NbColumns -1");
             }
             // on supprime la colonne j dans chaque ligne
             for (int r = 0; r < NbRows; r++)
