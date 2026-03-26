@@ -27,7 +27,7 @@
         // Renvoie vrai si la tournée contient le trajet `source`->`destination`
         public bool ContainsSegment((string source, string destination) segment)
         {
-            return false;   // TODO : implémenter 
+            return Trajets.Contains(segment);
         }
 
 
