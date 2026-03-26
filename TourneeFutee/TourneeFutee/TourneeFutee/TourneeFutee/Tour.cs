@@ -5,18 +5,22 @@
     {
         // TODO : ajouter tous les attributs que vous jugerez pertinents 
 
-        // propriétés
+        public List<(string source, string destination)> Trajets = new List<(string source, string destination)>();
+        private float cost;
+        private int nbSegments;
 
         // Coût total de la tournée
         public float Cost
         {
-            get;    // TODO : implémenter
+            get { return cost; }
+            set { cost = value; }
         }
 
         // Nombre de trajets dans la tournée
         public int NbSegments
         {
-            get;    // TODO : implémenter
+            get { return nbSegments; }
+            set { nbSegments = value; }
         }
 
 
