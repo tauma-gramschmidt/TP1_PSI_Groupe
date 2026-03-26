@@ -4,12 +4,20 @@
     // en utilisant l'algorithme de Little
     public class Little
     {
-        // TODO : ajouter tous les attributs que vous jugerez pertinents 
+        // TODO : ajouter tous les attributs que vous jugerez pertinents
+
+        private Graph graph;
+        private List<string> cities;
+        private int nbCities;
+        private const float INF = float.PositiveInfinity;
+
 
         // Instancie le planificateur en spécifiant le graphe modélisant un problème de voyageur de commerce
         public Little(Graph graph)
         {
-            // TODO : implémenter
+            this.graph = graph;
+            this.cities = new List<string>();
+            this.nbCities = 0;
         }
 
         // Trouve la tournée optimale dans le graphe `this.graph`
@@ -27,8 +35,71 @@
         // Après appel à cette méthode, la matrice `m` est *modifiée*.
         public static float ReduceMatrix(Matrix m)
         {
-            // TODO : implémenter
-            return 0.0f;
+            float totalReduction = 0.0f;
+
+            // Réduction des lignes
+            for (int i = 0; i < m.NbRows; i++)
+            {
+                float minRow = float.PositiveInfinity;
+
+                // Recherche du minimum fini de la ligne
+                for (int j = 0; j < m.NbColumns; j++)
+                {
+                    float value = m.GetValue(i, j);
+                    if (float.IsPositiveInfinity(value) == false && value < minRow)
+                    {
+                        minRow = value;
+                    }
+                }
+
+                // Si la ligne contient au moins une valeur finie, on réduit
+                if (float.IsPositiveInfinity(minRow) == false && minRow > 0.0f)
+                {
+                    for (int j = 0; j < m.NbColumns; j++)
+                    {
+                        float value = m.GetValue(i, j);
+                        if (!float.IsPositiveInfinity(value))
+                        {
+                            m.SetValue(i, j, value - minRow);
+                        }
+                    }
+
+                    totalReduction += minRow;
+                }
+            }
+
+            // Réduction des colonnes
+            for (int j = 0; j < m.NbColumns; j++)
+            {
+                float minColumn = float.PositiveInfinity;
+
+                // Recherche du minimum fini de la colonne
+                for (int i = 0; i < m.NbRows; i++)
+                {
+                    float value = m.GetValue(i, j);
+                    if (float.IsPositiveInfinity(value) == false && value < minColumn)
+                    {
+                        minColumn = value;
+                    }
+                }
+
+                // Si la colonne contient au moins une valeur finie, on réduit
+                if (float.IsPositiveInfinity(minColumn) == false && minColumn > 0.0f)
+                {
+                    for (int i = 0; i < m.NbRows; i++)
+                    {
+                        float value = m.GetValue(i, j);
+                        if (!float.IsPositiveInfinity(value))
+                        {
+                            m.SetValue(i, j, value - minColumn);
+                        }
+                    }
+
+                    totalReduction += minColumn;
+                }
+            }
+
+            return totalReduction;
         }
 
         // Renvoie le regret de valeur maximale dans la matrice de coûts `m` sous la forme d'un tuple `(int i, int j, float value)`
