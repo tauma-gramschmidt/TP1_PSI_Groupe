@@ -34,7 +34,22 @@
         // Affiche les informations sur la tournée : coût total et trajets
         public void Print()
         {
-            // TODO : implémenter 
+            Console.WriteLine("Tournée");
+            Console.WriteLine("Coût total : " + Cost);
+            Console.WriteLine("Nombre de segments : " + NbSegments);
+            Console.WriteLine("Trajets :");
+
+            if (Trajets.Count == 0)
+            {
+                Console.WriteLine("Aucun trajet dans la tournée.");
+            }
+            else
+            {
+                foreach ((string source, string destination) trajet in Trajets)
+                {
+                    Console.WriteLine(trajet.source + " -> " + trajet.destination);
+                }
+            }
         }
 
         // TODO : ajouter toutes les méthodes que vous jugerez pertinentes 
