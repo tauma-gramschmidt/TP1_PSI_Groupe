@@ -106,8 +106,44 @@
         // où `i`, `j`, et `value` contiennent respectivement la ligne, la colonne et la valeur du regret maximale
         public static (int i, int j, float value) GetMaxRegret(Matrix m)
         {
-            // TODO : implémenter
-            return (0, 0, 0.0f);
+            int bestI = -1;
+            int bestJ = -1;
+            float maxRegret = -1.0f;
+
+            for (int i = 0; i < m.NbRows; i++)
+            {
+                for (int j = 0; j < m.NbColumns; j++)
+                {
+                    
+                    if (m.GetValue(i, j) == 0.0f)
+                    {
+                       
+                        float minRow = float.PositiveInfinity;
+                        for (int col = 0; col < m.NbColumns; col++)
+                        {
+                            if (col != j && m.GetValue(i, col) < minRow)
+                                minRow = m.GetValue(i, col);
+                        }
+
+                        float minCol = float.PositiveInfinity;
+                        for (int row = 0; row < m.NbRows; row++)
+                        {
+                            if (row != i && m.GetValue(row, j) < minCol)
+                                minCol = m.GetValue(row, j);
+                        }
+
+                        float currentRegret = minRow + minCol;
+
+                        if (currentRegret > maxRegret)
+                        {
+                            maxRegret = currentRegret;
+                            bestI = i;
+                            bestJ = j;
+                        }
+                    }
+                }
+            }
+            return (bestI, bestJ, maxRegret);
 
         }
 
@@ -117,7 +153,34 @@
         public static bool IsForbiddenSegment((string source, string destination) segment, List<(string source, string destination)> includedSegments, int nbCities)
         {
 
-            // TODO : implémenter
+            
+            if (includedSegments.Count < nbCities - 1)
+            {
+                
+                string current = segment.destination;
+                bool chainContinues = true;
+
+                while (chainContinues)
+                {
+                    chainContinues = false;
+                    
+                    foreach (var s in includedSegments)
+                    {
+                        if (s.source == current)
+                        {
+                            current = s.destination;
+                            chainContinues = true;
+                            break;
+                        }
+                    }
+
+               
+                    if (current == segment.source)
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
