@@ -213,8 +213,11 @@
                 tour.Cost = currentBound;
                 tour.NbSegments = nbCities;
                 for (int k = 0; k < includedSegments.Count; k++)
-                tour.Trajets.Add(includedSegments[k]);
-                tour.Trajets.Add((rowLabels[0], colLabels[0]));
+                {
+                    tour.Trajets.Add(includedSegments[k]);
+                    tour.Trajets.Add((rowLabels[0], colLabels[0]));
+                }
+               
                 return tour;
             }
 
@@ -233,8 +236,12 @@
                 // On copie la matrice
                 Matrix mInclude = new Matrix(m.NbRows, m.NbColumns);
                 for (int i = 0; i < m.NbRows; i++)
+                {
                     for (int j = 0; j < m.NbColumns; j++)
+                    {
                         mInclude.SetValue(i, j, m.GetValue(i, j));
+                    }
+                }
 
                 // On met le trajet inverse à l'infini
                 int revRow = rowLabels.IndexOf(dst);
@@ -259,15 +266,26 @@
                 // On met à jour les labels
                 List<string> newRows = new List<string>();
                 List<string> newCols = new List<string>();
+
                 for (int i = 0; i < rowLabels.Count; i++)
+                {
                     if (i != ri) newRows.Add(rowLabels[i]);
+                }
+
                 for (int j = 0; j < colLabels.Count; j++)
+                {
                     if (j != rj) newCols.Add(colLabels[j]);
+                }
+
                 float extra = ReduceMatrix(mSmall);
+
                 List<(string source, string destination)> newSegs = new List<(string source, string destination)>();
                 for (int k = 0; k < includedSegments.Count; k++)
-                newSegs.Add(includedSegments[k]);
-                newSegs.Add((src, dst));
+                {
+                    newSegs.Add(includedSegments[k]);
+                    newSegs.Add((src, dst));
+                }
+           
 
               
                 includeTour = Explore(mSmall, currentBound + extra, newSegs, newRows, newCols);
@@ -276,8 +294,12 @@
             // On copie la matrice
             Matrix mExclude = new Matrix(m.NbRows, m.NbColumns);
             for (int i = 0; i < m.NbRows; i++)
+            {
                 for (int j = 0; j < m.NbColumns; j++)
+                {
                     mExclude.SetValue(i, j, m.GetValue(i, j));
+                }
+            }
 
             // On met le trajet à l'infini et on réduit
             mExclude.SetValue(ri, rj, INF);
@@ -285,8 +307,12 @@
 
             // On copie les segments existants
             List<(string source, string destination)> segsExclude = new List<(string source, string destination)>();
+
             for (int k = 0; k < includedSegments.Count; k++)
+            {
                 segsExclude.Add(includedSegments[k]);
+            }
+               
 
             Tour excludeTour = Explore(mExclude, currentBound + extraExclude, segsExclude, rowLabels, colLabels);
 
