@@ -184,7 +184,7 @@
             return false;
         }
 
-
+        // TODO : ajouter toutes les méthodes que vous jugerez pertinentes 
         private Matrix BuildCostMatrix()
         {
             Matrix m = new Matrix(nbCities, nbCities);
@@ -221,7 +221,7 @@
         }
 
 
-        // TODO : ajouter toutes les méthodes que vous jugerez pertinentes 
+      
 
     }
 }
