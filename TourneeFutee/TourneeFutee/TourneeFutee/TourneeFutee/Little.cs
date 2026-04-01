@@ -201,33 +201,13 @@
             return m;
         }
 
-        private Tour BuildTour(List<(string source, string destination)> segments, float cost)
-        {
-            Tour tour = new Tour();
-            tour.Cost = cost;
-            tour.NbSegments = segments.Count;
-
-            string current = segments[0].source;
-            for (int step = 0; step < segments.Count; step++)
-            {
-                foreach (var seg in segments)
-                {
-                    if (seg.source == current)
-                    {
-                        tour.Trajets.Add(seg);
-                        current = seg.destination;
-                        break;
-                    }
-                }
-            }
-            return tour;
-        }
+        
 
 
         public Tour Explore(Matrix m,float currentBound,List<(string source, string destination)> includedSegments,List<string> rowLabels,List<string> colLabels)
         {
-            // Cas de base : matrice 1x1, on ajoute le dernier trajet forcé
-            if (rowLabels.Count == 1)
+            
+            if (rowLabels.Count == 1) // BuildTour
             {
                 Tour tour = new Tour();
                 tour.Cost = currentBound;
