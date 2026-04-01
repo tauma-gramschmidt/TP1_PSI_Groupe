@@ -184,6 +184,43 @@
             return false;
         }
 
+
+        private Matrix BuildCostMatrix()
+        {
+            Matrix m = new Matrix(nbCities, nbCities);
+            for (int i = 0; i < nbCities; i++)
+            {
+                for (int j = 0; j < nbCities; j++)
+                {
+                    m.SetValue(i, j, i == j ? INF : graph.GetEdgeWeight(cities[i], cities[j]));
+                }
+            }
+            return m;
+        }
+
+        private Tour BuildTour(List<(string source, string destination)> segments, float cost)
+        {
+            Tour tour = new Tour();
+            tour.Cost = cost;
+            tour.NbSegments = segments.Count;
+
+            string current = segments[0].source;
+            for (int step = 0; step < segments.Count; step++)
+            {
+                foreach (var seg in segments)
+                {
+                    if (seg.source == current)
+                    {
+                        tour.Trajets.Add(seg);
+                        current = seg.destination;
+                        break;
+                    }
+                }
+            }
+            return tour;
+        }
+
+
         // TODO : ajouter toutes les méthodes que vous jugerez pertinentes 
 
     }
