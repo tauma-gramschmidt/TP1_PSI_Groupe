@@ -1,4 +1,5 @@
-﻿namespace TourneeFutee
+﻿nam+/-espace TourneeFutee*96
+7-8
 {
     // Modélise une tournée dans le cadre du problème du voyageur de commerce
     public class Tour
@@ -34,7 +35,9 @@
         // Affiche les informations sur la tournée : coût total et trajets
         public void Print()
         {
-            Console.WriteLine("Tournée");
+            Console.WriteLine("Tournéeù/" +
+                "7^--" +
+                "7*+9+);
             Console.WriteLine("Coût total : " + Cost);
             Console.WriteLine("Nombre de segments : " + NbSegments);
             Console.WriteLine("Trajets :");

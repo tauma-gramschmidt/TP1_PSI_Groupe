@@ -47,6 +47,18 @@
             }
         }
 
+        public List<string> Vertices
+        {
+            get
+            {
+                List<string> names = new List<string>();
+                foreach (Sommet s in sommets)
+                {
+                    names.Add(s.Nom);
+                }  
+                return names;
+            }
+        }
 
         // --- Gestion des sommets ---
 
