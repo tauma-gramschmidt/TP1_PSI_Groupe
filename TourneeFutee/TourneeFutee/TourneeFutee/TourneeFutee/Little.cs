@@ -30,16 +30,8 @@
             Matrix initialMatrix = BuildCostMatrix();
             float initialBound = ReduceMatrix(initialMatrix);
 
-            return Explore(
-                initialMatrix,
-                initialBound,
-                new List<(string source, string destination)>(),
-                new List<string>(cities),
-                new List<string>(cities)
-            );
+            return Explore(initialMatrix,initialBound,new List<(string source, string destination)>(),new List<string>(cities),new List<string>(cities));
         }
-
-        // --- Méthodes utilitaires réalisant des étapes de l'algorithme de Little
 
 
         // Réduit la matrice `m` et revoie la valeur totale de la réduction
