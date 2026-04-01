@@ -24,8 +24,19 @@
         // (c'est à dire le cycle hamiltonien de plus faible coût)
         public Tour ComputeOptimalTour()
         {
-            // TODO : implémenter
-            return new Tour();
+            cities = new List<string>(graph.Vertices); // fonctionne maintenant
+            nbCities = cities.Count;
+
+            Matrix initialMatrix = BuildCostMatrix();
+            float initialBound = ReduceMatrix(initialMatrix);
+
+            return Explore(
+                initialMatrix,
+                initialBound,
+                new List<(string source, string destination)>(),
+                new List<string>(cities),
+                new List<string>(cities)
+            );
         }
 
         // --- Méthodes utilitaires réalisant des étapes de l'algorithme de Little
@@ -221,7 +232,117 @@
         }
 
 
-      
+        public Tour Explore(
+    Matrix m,
+    float currentBound,
+    List<(string source, string destination)> includedSegments,
+    List<string> rowLabels,
+    List<string> colLabels)
+        {
+            // Cas de base : matrice 1x1, on ajoute le dernier trajet forcé
+            if (rowLabels.Count == 1)
+            {
+                Tour tour = new Tour();
+                tour.Cost = currentBound;
+                tour.NbSegments = nbCities;
+                for (int k = 0; k < includedSegments.Count; k++)
+                    tour.Trajets.Add(includedSegments[k]);
+                tour.Trajets.Add((rowLabels[0], colLabels[0]));
+                return tour;
+            }
 
+            // On cherche le regret max
+            var regret = GetMaxRegret(m);
+            int ri = regret.i;
+            int rj = regret.j;
+
+            // Aucun zéro dans la matrice → pas de solution
+            if (ri < 0) return null;
+
+            string src = rowLabels[ri];
+            string dst = colLabels[rj];
+
+            // ============ Branche INCLUS ============
+            Tour includeTour = null;
+
+            if (!IsForbiddenSegment((src, dst), includedSegments, nbCities))
+            {
+                // On copie la matrice
+                Matrix mInclude = new Matrix(m.NbRows, m.NbColumns);
+                for (int i = 0; i < m.NbRows; i++)
+                    for (int j = 0; j < m.NbColumns; j++)
+                        mInclude.SetValue(i, j, m.GetValue(i, j));
+
+                // On met le trajet inverse à l'infini
+                int revRow = rowLabels.IndexOf(dst);
+                int revCol = colLabels.IndexOf(src);
+                if (revRow >= 0 && revCol >= 0)
+                    mInclude.SetValue(revRow, revCol, INF);
+
+                // On supprime la ligne ri et la colonne rj
+                Matrix mSmall = new Matrix(m.NbRows - 1, m.NbColumns - 1);
+                int ni = 0;
+                for (int i = 0; i < m.NbRows; i++)
+                {
+                    if (i == ri) continue;
+                    int nj = 0;
+                    for (int j = 0; j < m.NbColumns; j++)
+                    {
+                        if (j == rj) continue;
+                        mSmall.SetValue(ni, nj, mInclude.GetValue(i, j));
+                        nj++;
+                    }
+                    ni++;
+                }
+
+                // On met à jour les labels
+                List<string> newRows = new List<string>();
+                List<string> newCols = new List<string>();
+                for (int i = 0; i < rowLabels.Count; i++)
+                    if (i != ri) newRows.Add(rowLabels[i]);
+                for (int j = 0; j < colLabels.Count; j++)
+                    if (j != rj) newCols.Add(colLabels[j]);
+
+                // On réduit
+                float extra = ReduceMatrix(mSmall);
+
+                // On ajoute le trajet inclus
+                List<(string source, string destination)> newSegs = new List<(string source, string destination)>();
+                for (int k = 0; k < includedSegments.Count; k++)
+                    newSegs.Add(includedSegments[k]);
+                newSegs.Add((src, dst));
+
+                // Appel récursif
+                includeTour = Explore(mSmall, currentBound + extra, newSegs, newRows, newCols);
+            }
+
+            // ============ Branche EXCLU ============
+
+            // On copie la matrice
+            Matrix mExclude = new Matrix(m.NbRows, m.NbColumns);
+            for (int i = 0; i < m.NbRows; i++)
+                for (int j = 0; j < m.NbColumns; j++)
+                    mExclude.SetValue(i, j, m.GetValue(i, j));
+
+            // On met le trajet à l'infini et on réduit
+            mExclude.SetValue(ri, rj, INF);
+            float extraExclude = ReduceMatrix(mExclude);
+
+            // On copie les segments existants
+            List<(string source, string destination)> segsExclude = new List<(string source, string destination)>();
+            for (int k = 0; k < includedSegments.Count; k++)
+                segsExclude.Add(includedSegments[k]);
+
+            // Appel récursif
+            Tour excludeTour = Explore(mExclude, currentBound + extraExclude, segsExclude, rowLabels, colLabels);
+
+            // On retourne la meilleure tournée
+            if (includeTour == null) return excludeTour;
+            if (excludeTour == null) return includeTour;
+            if (includeTour.Cost <= excludeTour.Cost)
+                return includeTour;
+            else
+                return excludeTour;
+        }
     }
 }
