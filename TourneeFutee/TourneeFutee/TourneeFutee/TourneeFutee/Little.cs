@@ -24,7 +24,7 @@
         // (c'est à dire le cycle hamiltonien de plus faible coût)
         public Tour ComputeOptimalTour()
         {
-            cities = new List<string>(graph.Vertices); // fonctionne maintenant
+            cities = new List<string>(graph.Vertices); 
             nbCities = cities.Count;
 
             Matrix initialMatrix = BuildCostMatrix();
@@ -215,9 +215,9 @@
                 for (int k = 0; k < includedSegments.Count; k++)
                 {
                     tour.Trajets.Add(includedSegments[k]);
-                    tour.Trajets.Add((rowLabels[0], colLabels[0]));
                 }
-               
+                tour.Trajets.Add((rowLabels[0], colLabels[0]));
+
                 return tour;
             }
 
@@ -246,8 +246,12 @@
                 // On met le trajet inverse à l'infini
                 int revRow = rowLabels.IndexOf(dst);
                 int revCol = colLabels.IndexOf(src);
+
                 if (revRow >= 0 && revCol >= 0)
-                mInclude.SetValue(revRow, revCol, INF);
+                {
+                    mInclude.SetValue(revRow, revCol, INF);
+                }
+               
                 Matrix mSmall = new Matrix(m.NbRows - 1, m.NbColumns - 1);
                 int ni = 0;
                 for (int i = 0; i < m.NbRows; i++)
@@ -283,11 +287,12 @@
                 for (int k = 0; k < includedSegments.Count; k++)
                 {
                     newSegs.Add(includedSegments[k]);
-                    newSegs.Add((src, dst));
+                  
                 }
-           
+                newSegs.Add((src, dst));
 
-              
+
+
                 includeTour = Explore(mSmall, currentBound + extra, newSegs, newRows, newCols);
             }
 
