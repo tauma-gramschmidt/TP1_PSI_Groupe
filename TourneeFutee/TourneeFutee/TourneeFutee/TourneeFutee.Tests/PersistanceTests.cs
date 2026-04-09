@@ -31,7 +31,7 @@ namespace TourneeFutee.Tests
         // ─────────────────────────────────────────────────────────────────────
         // Instance partagée du service (créée une seule fois par classe de test)
         // ─────────────────────────────────────────────────────────────────────
-        private static ServicePersistance _service;
+        private static ServicePersistance_service;
 
         // ─────────────────────────────────────────────────────────────────────
         // Initialisation de la classe de test (appelée une seule fois)
