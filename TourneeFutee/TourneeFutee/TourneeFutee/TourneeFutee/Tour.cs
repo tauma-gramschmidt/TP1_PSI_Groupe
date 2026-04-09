@@ -2,9 +2,30 @@
 {
     public class Tour
     {
+        public List<string> vertices;
         public List<(string source, string destination)> Trajets = new List<(string source, string destination)>();
         private float cost;
         private int nbSegments;
+        public Tour()
+        {
+            Vertices = new List<string>();
+            Trajets = new List<(string source, string destination)>();
+            Cost = 0;
+            NbSegments = 0;
+        }
+        public Tour(List<string> vertices, float cost)
+        {
+            Vertices = vertices;
+            Cost = cost;
+            Trajets = new List<(string source, string destination)>();
+            NbSegments = vertices.Count > 0 ? vertices.Count - 1 : 0;
+        }
+
+        public List<string> Vertices
+        {
+            get { return vertices; }
+            set { vertices = value; }
+        }
 
         public float Cost
         {
