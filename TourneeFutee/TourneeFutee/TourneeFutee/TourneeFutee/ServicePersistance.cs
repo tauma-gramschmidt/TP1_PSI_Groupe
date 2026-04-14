@@ -250,10 +250,10 @@ namespace TourneeFutee
                     // 2. Charger les étapes triées par numéro d'ordre.
                     var vertices = new List<string>();
                     string sqlEtapes = @"SELECT s.nom
-                                         FROM EtapeTournee et
-                                         JOIN Sommet s ON et.sommet_id = s.id
-                                         WHERE et.tournee_id = @tourneeId
-                                         ORDER BY et.ordre ASC;";
+                     FROM EtapeTournee et
+                     JOIN Sommet s ON et.sommet_id = s.id
+                     WHERE et.tournee_id = @tourneeId
+                     ORDER BY et.ordre ASC;";
                     using (var cmd = new MySqlCommand(sqlEtapes, conn))
                     {
                         cmd.Parameters.AddWithValue("@tourneeId", id);
@@ -261,10 +261,17 @@ namespace TourneeFutee
                         {
                             while (reader.Read())
                             {
-                                vertices.Add(reader["nom"]?.ToString() ?? string.Empty);
+                                string nom;
+                                if (reader["nom"] == null)
+                                    nom = string.Empty;
+                                else
+                                    nom = reader["nom"].ToString();
+
+                                vertices.Add(nom);
                             }
                         }
                     }
+
 
                     return new Tour(vertices, coutTotal);
                 }
