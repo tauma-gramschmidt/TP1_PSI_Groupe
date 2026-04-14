@@ -19,7 +19,7 @@ namespace TourneeFutee
         /// Instancie un service de persistance et vérifie la connexion à la base
         public ServicePersistance(string serverIp, string dbname, string user, string pwd)
         {
-            _connectionString = "server={serverIp};database={dbname};uid={user};pwd={pwd};";
+            _connectionString = $"server={serverIp};database={dbname};uid={user};pwd={pwd};";
             try
             {
                 using (var conn = OpenConnection())
@@ -29,7 +29,7 @@ namespace TourneeFutee
             }
             catch (MySqlException ex)
             {
-                throw new Exception("Connexion à la base de données impossible : {ex.Message}", ex);
+                throw new Exception($"Connexion à la base de données impossible : {ex.Message}", ex);
             }
         }
    
@@ -118,7 +118,7 @@ namespace TourneeFutee
                         using (var reader = cmd.ExecuteReader())
                         {
                             if (!reader.Read())
-                                throw new ArgumentException("Graphe avec id={id} introuvable.");
+                                throw new ArgumentException($"Graphe avec id={id} introuvable.");
                             oriente = Convert.ToBoolean(reader["oriente"]);
                         }
                     }
@@ -166,7 +166,7 @@ namespace TourneeFutee
             }
             catch (MySqlException ex)
             {
-                throw new Exception("Erreur lors du chargement du graphe {id} : {ex.Message}", ex);
+                throw new Exception($"Erreur lors du chargement du graphe {id} : {ex.Message}", ex);
             }
         }
 
@@ -202,7 +202,7 @@ namespace TourneeFutee
                             cmd.Parameters.AddWithValue("@grapheId", graphId);
                             var result = cmd.ExecuteScalar();
                             if (result == null)
-                                throw new ArgumentException("Sommet '{vertexName}' introuvable dans le graphe {graphId}.");
+                                throw new ArgumentException($"Sommet '{vertexName}' introuvable dans le graphe {graphId}.");
                             sommetId = Convert.ToUInt32(result);
                         }
 
@@ -222,7 +222,7 @@ namespace TourneeFutee
             }
             catch (MySqlException ex)
             {
-                throw new Exception("Erreur lors de la sauvegarde de la tournée : {ex.Message}", ex);
+                throw new Exception($"Erreur lors de la sauvegarde de la tournée : {ex.Message}", ex);
             }
         }
 
@@ -243,7 +243,7 @@ namespace TourneeFutee
                         cmd.Parameters.AddWithValue("@id", id);
                         var result = cmd.ExecuteScalar();
                         if (result == null)
-                            throw new ArgumentException("Tournée avec id={id} introuvable.");
+                            throw new ArgumentException($"Tournée avec id={id} introuvable.");
                         coutTotal = Convert.ToSingle(result);
                     }
 
