@@ -15,11 +15,11 @@ namespace TourneeFutee
 
        
         // Constructeur
-        /// <summary>
+     
         /// Instancie un service de persistance et vérifie la connexion à la base
         public ServicePersistance(string serverIp, string dbname, string user, string pwd)
         {
-            _connectionString = $"server={serverIp};database={dbname};uid={user};pwd={pwd};";
+            _connectionString = "server={serverIp};database={dbname};uid={user};pwd={pwd};";
             try
             {
                 using (var conn = OpenConnection())
@@ -29,18 +29,16 @@ namespace TourneeFutee
             }
             catch (MySqlException ex)
             {
-                throw new Exception($"Connexion à la base de données impossible : {ex.Message}", ex);
+                throw new Exception("Connexion à la base de données impossible : {ex.Message}", ex);
             }
         }
+   
+        // Méthodes publiques   
 
-        // ─────────────────────────────────────────────────────────────────────
-        // Méthodes publiques
-        // ─────────────────────────────────────────────────────────────────────
-
-        /// <summary>
+      
         /// Sauvegarde le graphe <paramref name="g"/> en base de données
         /// (sommets et arcs inclus) et renvoie son identifiant.
-        /// </summary>
+     
         public uint SaveGraph(Graph g)
         {
             try
@@ -102,10 +100,9 @@ namespace TourneeFutee
             }
         }
 
-        /// <summary>
+      
         /// Charge depuis la base de données le graphe identifié par <paramref name="id"/>
         /// et renvoie une instance de la classe <see cref="Graph"/>.
-        /// </summary>
         public Graph LoadGraph(uint id)
         {
             try
@@ -121,7 +118,7 @@ namespace TourneeFutee
                         using (var reader = cmd.ExecuteReader())
                         {
                             if (!reader.Read())
-                                throw new ArgumentException($"Graphe avec id={id} introuvable.");
+                                throw new ArgumentException("Graphe avec id={id} introuvable.");
                             oriente = Convert.ToBoolean(reader["oriente"]);
                         }
                     }
@@ -169,14 +166,14 @@ namespace TourneeFutee
             }
             catch (MySqlException ex)
             {
-                throw new Exception($"Erreur lors du chargement du graphe {id} : {ex.Message}", ex);
+                throw new Exception("Erreur lors du chargement du graphe {id} : {ex.Message}", ex);
             }
         }
 
-        /// <summary>
+       
         /// Sauvegarde la tournée <paramref name="t"/> en base de données
         /// et renvoie son identifiant.
-        /// </summary>
+     
         public uint SaveTour(uint graphId, Tour t)
         {
             try
@@ -206,7 +203,7 @@ namespace TourneeFutee
                             cmd.Parameters.AddWithValue("@grapheId", graphId);
                             var result = cmd.ExecuteScalar();
                             if (result == null)
-                                throw new ArgumentException($"Sommet '{vertexName}' introuvable dans le graphe {graphId}.");
+                                throw new ArgumentException("Sommet '{vertexName}' introuvable dans le graphe {graphId}.");
                             sommetId = Convert.ToUInt32(result);
                         }
 
@@ -226,7 +223,7 @@ namespace TourneeFutee
             }
             catch (MySqlException ex)
             {
-                throw new Exception($"Erreur lors de la sauvegarde de la tournée : {ex.Message}", ex);
+                throw new Exception("Erreur lors de la sauvegarde de la tournée : {ex.Message}", ex);
             }
         }
 
