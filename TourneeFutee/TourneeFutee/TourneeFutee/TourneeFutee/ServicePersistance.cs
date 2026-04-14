@@ -10,21 +10,13 @@ namespace TourneeFutee
     /// </summary>
     public class ServicePersistance
     {
-        // ─────────────────────────────────────────────────────────────────────
         // Attributs privés
-        // ─────────────────────────────────────────────────────────────────────
-
         private readonly string _connectionString;
 
-        // ─────────────────────────────────────────────────────────────────────
+       
         // Constructeur
-        // ─────────────────────────────────────────────────────────────────────
-
         /// <summary>
         /// Instancie un service de persistance et vérifie la connexion à la base
-        /// de données <paramref name="dbname"/> sur le serveur <paramref name="serverIp"/>.
-        /// </summary>
-        /// <exception cref="Exception">Levée si la connexion échoue.</exception>
         public ServicePersistance(string serverIp, string dbname, string user, string pwd)
         {
             _connectionString = $"server={serverIp};database={dbname};uid={user};pwd={pwd};";
@@ -32,7 +24,7 @@ namespace TourneeFutee
             {
                 using (var conn = OpenConnection())
                 {
-                    // Connexion ouverte et fermée pour valider les paramètres.
+                    
                 }
             }
             catch (MySqlException ex)
