@@ -136,7 +136,7 @@ namespace TourneeFutee
                             while (reader.Read())
                             {
                                 uint sommetId = Convert.ToUInt32(reader["id"]);
-                                string nom = reader["nom"]?.ToString() ?? string.Empty;
+                                string nom = reader["nom"] != null ? reader["nom"].ToString() : string.Empty;
                                 float valeur = Convert.ToSingle(reader["valeur"]);
                                 graph.AddVertex(nom, valeur);
                                 dbIdToName[sommetId] = nom;
@@ -173,7 +173,6 @@ namespace TourneeFutee
        
         /// Sauvegarde la tournée <paramref name="t"/> en base de données
         /// et renvoie son identifiant.
-     
         public uint SaveTour(uint graphId, Tour t)
         {
             try
@@ -227,10 +226,9 @@ namespace TourneeFutee
             }
         }
 
-        /// <summary>
         /// Charge depuis la base de données la tournée identifiée par <paramref name="id"/>
         /// et renvoie une instance de la classe <see cref="Tour"/>.
-        /// </summary>
+
         public Tour LoadTour(uint id)
         {
             try
@@ -245,7 +243,7 @@ namespace TourneeFutee
                         cmd.Parameters.AddWithValue("@id", id);
                         var result = cmd.ExecuteScalar();
                         if (result == null)
-                            throw new ArgumentException($"Tournée avec id={id} introuvable.");
+                            throw new ArgumentException("Tournée avec id={id} introuvable.");
                         coutTotal = Convert.ToSingle(result);
                     }
 
@@ -273,18 +271,15 @@ namespace TourneeFutee
             }
             catch (MySqlException ex)
             {
-                throw new Exception($"Erreur lors du chargement de la tournée {id} : {ex.Message}", ex);
+                throw new Exception("Erreur lors du chargement de la tournée {id} : {ex.Message}", ex);
             }
         }
 
-        // ─────────────────────────────────────────────────────────────────────
         // Méthodes utilitaires privées
-        // ─────────────────────────────────────────────────────────────────────
-
-        /// <summary>
+      
         /// Crée et retourne une nouvelle connexion MySQL ouverte.
         /// Encadrez toujours l'appel dans un bloc using pour garantir la fermeture.
-        /// </summary>
+        
         private MySqlConnection OpenConnection()
         {
             var conn = new MySqlConnection(_connectionString);
