@@ -199,7 +199,7 @@ namespace TourneeFutee.Tests
             Assert.AreEqual(1f,  loaded.GetEdgeWeight("A", "B"), 0.001f, "Poids A->B incorrect.");
             Assert.AreEqual(3f,  loaded.GetEdgeWeight("B", "A"), 0.001f, "Poids B->A incorrect.");
             Assert.AreEqual(20f, loaded.GetEdgeWeight("F", "A"), 0.001f, "Poids F->A incorrect.");
-            Assert.AreEqual(4f,  loaded.GetEdgeWeight("E", "D"), 0.001f, "Poids E->D incorrect.");
+            Assert.AreEqual(4f,  loaded.GetEdgeWeight("E", "F"), 0.001f, "Poids E->F incorrect.");
 
             // FIX : IsOriented -> Directed
             Assert.IsTrue(loaded.Directed,
