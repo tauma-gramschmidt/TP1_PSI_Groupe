@@ -4,7 +4,7 @@ namespace TourneeFutee
 {
     public class Tour
     {
-        private List<string> vertices;
+        private List<string> vertices = new List<string>();
         private List<(string source, string destination)> trajets = new List<(string source, string destination)>();
         private float cost;
         private int nbSegments;
