@@ -1,11 +1,19 @@
-﻿namespace TourneeFutee
+﻿using Org.BouncyCastle.Asn1.X509;
+
+namespace TourneeFutee
 {
     public class Tour
     {
         private List<string> vertices;
-        private List<(string source, string destination)> Trajets = new List<(string source, string destination)>();
+        private List<(string source, string destination)> trajets = new List<(string source, string destination)>();
         private float cost;
         private int nbSegments;
+
+        public List<(string source, string destination)> Trajets
+        {
+            get { return trajets; }
+            set { trajets = value; }
+        }
         public Tour()
         {
             Vertices = new List<string>();
