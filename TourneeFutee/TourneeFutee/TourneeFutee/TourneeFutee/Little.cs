@@ -30,7 +30,7 @@
             Matrix initialMatrix = BuildCostMatrix();
             float initialBound = ReduceMatrix(initialMatrix);
 
-            return Explore(initialMatrix,initialBound,new List<(string source, string destination)>(),new List<string>(cities),new List<string>(cities));
+            return Explore(initialMatrix,initialBound,new List<(string source, string destination)>(),new List<string>(cities),new List<string>(cities))!;
         }
 
 
@@ -204,7 +204,7 @@
         
 
 
-        public Tour Explore(Matrix m,float currentBound,List<(string source, string destination)> includedSegments,List<string> rowLabels,List<string> colLabels)
+        public Tour? Explore(Matrix m,float currentBound,List<(string source, string destination)> includedSegments,List<string> rowLabels,List<string> colLabels)
         {
             
             if (rowLabels.Count == 1) // BuildTour
@@ -229,7 +229,7 @@
 
             string src = rowLabels[ri];
             string dst = colLabels[rj];
-            Tour includeTour = null;
+            Tour? includeTour = null;
 
             if (!IsForbiddenSegment((src, dst), includedSegments, nbCities))
             {
@@ -319,7 +319,7 @@
             }
                
 
-            Tour excludeTour = Explore(mExclude, currentBound + extraExclude, segsExclude, rowLabels, colLabels);
+            Tour? excludeTour = Explore(mExclude, currentBound + extraExclude, segsExclude, rowLabels, colLabels);
 
             // On retourne la meilleure tournée
             if (includeTour == null) return excludeTour;
