@@ -3,7 +3,7 @@
     public class Tour
     {
         private List<string> vertices;
-        public List<(string source, string destination)> Trajets = new List<(string source, string destination)>();
+        private List<(string source, string destination)> Trajets = new List<(string source, string destination)>();
         private float cost;
         private int nbSegments;
         public Tour()
