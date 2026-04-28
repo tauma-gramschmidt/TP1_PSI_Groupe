@@ -8,7 +8,7 @@
             string server = "127.0.0.1";
             string dbname = "tourneefutee";
             string user = "root";
-            string pwd = "";
+            string pwd = "root";
             Console.WriteLine("Tournee Futee");
             Console.WriteLine();
             // Creation du graphe de test (6 villes)
