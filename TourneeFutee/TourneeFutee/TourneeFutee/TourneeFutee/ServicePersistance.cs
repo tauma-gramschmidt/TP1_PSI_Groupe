@@ -278,7 +278,7 @@ namespace TourneeFutee
             }
             catch (MySqlException ex)
             {
-                throw new Exception("Erreur lors du chargement de la tournée {id} : {ex.Message}", ex);
+                throw new Exception($"Erreur lors du chargement de la tournée {id} : {ex.Message}", ex);
             }
         }
 
